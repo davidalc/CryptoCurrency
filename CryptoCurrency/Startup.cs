@@ -1,3 +1,4 @@
+using CryptoCurrency.DTO;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -5,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,6 +26,10 @@ namespace CryptoCurrency
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var messariAssetsSettings = new MessariAssetsSettings();
+            new ConfigureFromConfigurationOptions<MessariAssetsSettings>(Configuration.GetSection("MessariAssetsSettings")).Configure(messariAssetsSettings);
+            services.AddSingleton(messariAssetsSettings);
+
             services.AddControllers();
         }
 
